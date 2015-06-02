@@ -1,5 +1,7 @@
 class Piece
-
+  def moves
+    raise NotImplementedError
+  end
 end
 
 class SteppingPiece < Piece
@@ -15,7 +17,7 @@ class Pawn < Piece
 end
 
 class Knight < SteppingPiece
-  
+
 end
 
 class King < SteppingPiece
@@ -32,4 +34,8 @@ end
 
 class Queen < SlidingPiece
 
+end
+
+
+class NotImplementedError < StandardError
 end
