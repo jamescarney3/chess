@@ -1,11 +1,20 @@
 class Piece
+
+  def initialize(board, color, pos)
+    @board = board
+    @color = color #:white or :black
+    @pos = pos #[rank, file]
+  end
+
   def moves
     raise NotImplementedError
   end
+
 end
 
 class SteppingPiece < Piece
 
+  
 end
 
 class SlidingPiece < Piece
