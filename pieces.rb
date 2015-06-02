@@ -25,6 +25,21 @@ attr_reader :color
     !@board[*pos].nil?
   end
 
+  def occupied_by_ally?(pos)
+    if occupied?(pos)
+      return @board[*pos].color == self.color
+    end
+
+    false
+  end
+
+  def occupied_by_enemy?(pos)
+    if occupied?(pos)
+      return @board[*pos].color != self.color
+    end
+
+    false
+  end
 
 end
 
@@ -38,11 +53,7 @@ class SteppingPiece < Piece
     deltas.map do |delta_rank, delta_file|
       [@pos.first + delta_rank, @pos.last + delta_file]
     end.select do |coord|
-      in_bounds?(coord) &&
-      (
-        !occupied?(coord) ||
-        @board[*coord].color != self.color
-      )
+      in_bounds?(coord) && !occupied_by_ally?(pos)
     end
   end
 
@@ -59,17 +70,12 @@ class SlidingPiece < Piece
         test_coord = [distance * dir.first + @pos.first,
                       distance * dir.last + @pos.last]
 
-        if !in_bounds?(test_coord) ||
-          (
-            !occupied?(coord) &&
-            @board[*coord].color == self.color
-          )
+        if !in_bounds?(test_coord) || occupied_by_ally?(test_coord)
           break
         end
 
         valid_moves << test_coord
-
-        break if !occupied?(coord) && @board[*coord].color != self.color
+        break if occupied_by_enemy?(test_coord)
 
         distance += 1
       end
