@@ -6,6 +6,7 @@ class Board
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
+    #self.set_pieces
   end
 
   def set_pieces
@@ -23,6 +24,31 @@ class Board
     end
   end
 
+  def [](*pos)
+    @board[pos.first][pos.last]
+  end
+
+  def []=(*pos, value)
+    @board[pos.first][pos.last] = value
+  end
+
+  def in_check?(color)
+    flat_board = @board.flatten
+    king_coords = flat_board.select do |tile|
+      tile.is_a?(King) && tile.color == color
+    end.first.pos
+
+    opposing_pieces = flat_board.select do |tile|
+      tile.is_a?(Piece) && tile.color != color
+    end
+
+    opposing_pieces.any? do |piece|
+        piece.moves.include?(king_coords)
+    end
+
+  end
+
+  private
   def set_pawns(rank_index, color)
     BOARD_SIZE.times do |file_index|
       pos = [rank_index, file_index]
@@ -46,14 +72,6 @@ class Board
         self[*pos] = King.new(self, color, pos)
       end
     end
-  end
-
-  def [](*pos)
-    @board[pos.first][pos.last]
-  end
-
-  def []=(*pos, value)
-    @board[pos.first][pos.last] = value
   end
 
 end

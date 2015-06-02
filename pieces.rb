@@ -4,7 +4,7 @@ require 'byebug'
 
 class Piece
 
-attr_reader :color
+attr_reader :color, :pos
 
   def initialize(board, color, pos)
     @board = board
