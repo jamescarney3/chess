@@ -1,5 +1,6 @@
 require_relative 'board.rb'
 require_relative 'chess.rb'
+require 'byebug'
 
 class Piece
 
@@ -91,7 +92,7 @@ class SlidingPiece < Piece
 end
 
 class Pawn < Piece
-  TOP_PAWN_RANK = 6
+  TOP_PAWN_RANK = 1
 
   def initialize(board, color, pos)
     super
@@ -100,12 +101,42 @@ class Pawn < Piece
   end
 
   def moves
-    valid_moves = []
+    attackable_coords + marchable_coords
   end
 
-
-
   private
+
+  def attackable_coords
+    attackable = []
+    attack_deltas.each do |attack_coord|
+
+      test_coord = [
+        attack_coord.first + @pos.first,
+        attack_coord.last + @pos.last
+      ]
+
+      if in_bounds?(test_coord) && occupied_by_enemy?(test_coord)
+        attackable << test_coord
+      end
+    end
+
+    attackable
+  end
+
+  def marchable_coords
+    marchable = []
+    steps = @moved ? 1 : 2
+    steps.times do |step|
+      test_coord = [
+        @pos.first + (march_delta.first * (step + 1)),
+        @pos.last
+      ]
+      break if occupied?(test_coord)
+      marchable << test_coord
+    end
+
+    marchable
+  end
 
   def march_delta
     @direction == :up ? [-1, 0] : [1, 0]
