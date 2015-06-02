@@ -10,15 +10,26 @@ class Piece
     raise NotImplementedError
   end
 
+  private
+
   def in_bounds?(pos)
     pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
   end
+
 end
 
 class SteppingPiece < Piece
 
   def deltas
     raise NotImplementedError
+  end
+
+  def moves
+    deltas.map do |delta_rank, delta_file|
+      [@pos.first + delta_rank, @pos.last +delta_file]
+    end.select do |coord|
+      in_bounds?(coord) && !occupied?(coord)
+    end
   end
 
 
@@ -46,6 +57,9 @@ class Knight < SteppingPiece
       [-2, -1]
     ]
   end
+
+
+
 end
 
 class King < SteppingPiece
@@ -61,6 +75,10 @@ class King < SteppingPiece
       [-1,  0],
       [-1, -1]
     ]
+  end
+
+  def moves
+
   end
 
 end
