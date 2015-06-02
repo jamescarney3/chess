@@ -79,6 +79,16 @@ class Board
     dup_board
   end
 
+  def check_mate?(color)
+    return false if !in_check?(color)
+
+    @board.flatten.select do |tile|
+      !tile.nil? && tile.color == color
+    end.all? do |piece|
+      piece.valid_moves.empty?
+    end
+  end
+
   private
   def set_pawns(rank_index, color)
     BOARD_SIZE.times do |file_index|
@@ -88,20 +98,10 @@ class Board
   end
 
   def set_powers(rank_index, color)
+    piece_classes = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     BOARD_SIZE.times do |file_index|
       pos = [rank_index, file_index]
-      case file_index
-      when 0, 7
-        self[*pos] = Rook.new(self, color, pos)
-      when 1, 6
-        self[*pos] = Knight.new(self, color, pos)
-      when 2, 5
-        self[*pos] = Bishop.new(self, color, pos)
-      when 3
-        self[*pos] = Queen.new(self, color, pos)
-      when 4
-        self[*pos] = King.new(self, color, pos)
-      end
+      self[*pos] = piece_classes[file_index].new(self, color, pos)
     end
 
     self

@@ -23,7 +23,7 @@ attr_reader :color, :pos
   end
 
   def dup(dup_board)
-    self.class.new(dup_board, @color, @pos)
+    self.class.new(dup_board, @color, @pos.dup)
   end
 
   def move_into_check?(end_pos)
@@ -88,8 +88,10 @@ class SlidingPiece < Piece
     move_dirs.each do |dir|
       distance = 1
       while distance < Board::BOARD_SIZE
-        test_coord = [distance * dir.first + @pos.first,
-                      distance * dir.last + @pos.last]
+        test_coord = [
+          distance * dir.first + @pos.first,
+          distance * dir.last + @pos.last
+        ]
 
         if !in_bounds?(test_coord) || occupied_by_ally?(test_coord)
           break
@@ -160,6 +162,7 @@ class Pawn < Piece
     marchable = []
     steps = @pos[0] == TOP_PAWN_RANK ||
       @pos[0] == BOTTOM_PAWN_RANK ? 1 : 2
+
     steps.times do |step|
       test_coord = [
         @pos.first + (march_delta.first * (step + 1)),
