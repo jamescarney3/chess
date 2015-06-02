@@ -25,6 +25,7 @@ attr_reader :color
     !@board[*pos].nil?
   end
 
+
 end
 
 class SteppingPiece < Piece
@@ -53,7 +54,25 @@ class SlidingPiece < Piece
   def moves
     valid_moves = []
     move_dirs.each do |dir|
-      
+      distance = 1
+      while distance < Board::BOARD_SIZE
+        test_coord = [distance * dir.first + @pos.first,
+                      distance * dir.last + @pos.last]
+
+        if !in_bounds?(test_coord) ||
+          (
+            !occupied?(coord) &&
+            @board[*coord].color == self.color
+          )
+          break
+        end
+
+        valid_moves << test_coord
+
+        break if !occupied?(coord) && @board[*coord].color != self.color
+
+        distance += 1
+      end
     end
 
     valid_moves
