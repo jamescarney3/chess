@@ -60,8 +60,15 @@ class Board
 
   def dup
     dup_board = Board.new
-    
+    BOARD_SIZE.times do |rank_index|
+      BOARD_SIZE.times do |file_index|
+        dup_pos = [rank_index, file_index]
+        next if self[*dup_pos].nil?
+        dup_board[*dup_pos] = self[*dup_pos].dup(dup_board)
+      end
+    end
 
+    dup_board
   end
 
   private

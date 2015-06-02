@@ -26,6 +26,12 @@ attr_reader :color, :pos
     self.class.new(dup_board, @color, @pos)
   end
 
+  def move_into_check?(end_pos)
+    dup_board = @board.dup
+    dup_board.move(@pos, end_pos)
+    dup_board.in_check?(@color)
+  end
+
   private
 
   def in_bounds?(pos)
@@ -123,6 +129,8 @@ class Pawn < Piece
   def dup(dup_board)
     new_pawn = Pawn.new(dup_board, @color, @pos)
     new_pawn.direction = @direction
+
+    new_pawn
   end
 
   private
