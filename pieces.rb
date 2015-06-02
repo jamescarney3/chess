@@ -10,6 +10,9 @@ class Piece
     raise NotImplementedError
   end
 
+  def in_bounds?(pos)
+    pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
+  end
 end
 
 class SteppingPiece < Piece
@@ -59,6 +62,7 @@ class King < SteppingPiece
       [-1, -1]
     ]
   end
+
 end
 
 class Bishop < SlidingPiece
