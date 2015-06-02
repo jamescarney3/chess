@@ -22,6 +22,8 @@ class Board
         set_powers(rank_index, :white)
       end
     end
+
+    self
   end
 
   def [](*pos)
@@ -80,6 +82,8 @@ class Board
         self[*pos] = King.new(self, color, pos)
       end
     end
+
+    self
   end
 
 end
