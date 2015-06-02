@@ -58,6 +58,12 @@ class Board
     piece.move_to(end_pos)
   end
 
+  def dup
+    dup_board = Board.new
+    
+
+  end
+
   private
   def set_pawns(rank_index, color)
     BOARD_SIZE.times do |file_index|

@@ -22,6 +22,10 @@ attr_reader :color, :pos
     @board[*pos] = self
   end
 
+  def dup(dup_board)
+    self.class.new(dup_board, @color, @pos)
+  end
+
   private
 
   def in_bounds?(pos)
@@ -99,10 +103,12 @@ end
 
 class Pawn < Piece
   TOP_PAWN_RANK = 1
+  BOTTOM_PAWN_RANK = 6
+
+  attr_accessor :direction
 
   def initialize(board, color, pos)
     super
-    @moved = false
     @direction = find_direction(pos)
   end
 
@@ -113,6 +119,12 @@ class Pawn < Piece
   def inspect
     "#{color.to_s[0]}P "
   end
+
+  def dup(dup_board)
+    new_pawn = Pawn.new(dup_board, @color, @pos)
+    new_pawn.direction = @direction
+  end
+
   private
 
   def attackable_coords
@@ -134,13 +146,14 @@ class Pawn < Piece
 
   def marchable_coords
     marchable = []
-    steps = @moved ? 1 : 2
+    steps = @pos[0] == TOP_PAWN_RANK ||
+      @pos[0] == BOTTOM_PAWN_RANK ? 1 : 2
     steps.times do |step|
       test_coord = [
         @pos.first + (march_delta.first * (step + 1)),
         @pos.last
       ]
-      break if occupied?(test_coord)
+      break if occupied?(test_coord) || !in_bounds?(test_coord)
       marchable << test_coord
     end
 
