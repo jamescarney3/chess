@@ -32,10 +32,14 @@ attr_reader :color, :pos
     dup_board.in_check?(@color)
   end
 
+  def valid_moves
+    moves.select { |move| !move_into_check?(move) }
+  end
+
   private
 
   def in_bounds?(pos)
-    pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
+    pos.all? { |coord| (0...Board::BOARD_SIZE).include?(coord) }
   end
 
   def occupied?(pos)
