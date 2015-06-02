@@ -1,6 +1,6 @@
 require_relative 'pieces.rb'
 require_relative 'chess.rb'
-
+require 'byebug'
 class Board
   BOARD_SIZE = 8
 
@@ -19,7 +19,7 @@ class Board
       when 6
         set_pawns(rank_index, :white)
       when 7
-        set_pawns(rank_index, :white)
+        set_powers(rank_index, :white)
       end
     end
   end
@@ -48,6 +48,14 @@ class Board
 
   end
 
+  def move(start_pos, end_pos)
+    piece = self[*start_pos]
+    raise NoPieceError if piece.nil?
+    raise InvalidMoveError unless piece.moves.include?(end_pos)
+
+    piece.move_to(end_pos)
+  end
+
   private
   def set_pawns(rank_index, color)
     BOARD_SIZE.times do |file_index|
@@ -74,4 +82,8 @@ class Board
     end
   end
 
+end
+
+
+class NoPieceError < StandardError
 end

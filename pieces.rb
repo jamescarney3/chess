@@ -16,6 +16,12 @@ attr_reader :color, :pos
     raise NotImplementedError
   end
 
+  def move_to(pos)
+    @board[*@pos] = nil
+    @pos = pos
+    @board[*pos] = self
+  end
+
   private
 
   def in_bounds?(pos)
