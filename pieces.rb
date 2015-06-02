@@ -16,6 +16,10 @@ class Piece
     pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
   end
 
+  def occupied?(pos)
+    !@board[*pos].nil?
+  end
+
 end
 
 class SteppingPiece < Piece
