@@ -91,7 +91,7 @@ class SlidingPiece < Piece
 end
 
 class Pawn < Piece
-
+  
 end
 
 class Knight < SteppingPiece
