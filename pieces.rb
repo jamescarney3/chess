@@ -104,6 +104,9 @@ class Pawn < Piece
     attackable_coords + marchable_coords
   end
 
+  def inspect
+    "#{color.to_s[0]}P "
+  end
   private
 
   def attackable_coords
@@ -171,7 +174,9 @@ class Knight < SteppingPiece
     ]
   end
 
-
+  def inspect
+    "#{color.to_s[0]}N "
+  end
 
 end
 
@@ -190,6 +195,10 @@ class King < SteppingPiece
     ]
   end
 
+  def inspect
+    "#{color.to_s[0]}K "
+  end
+
 end
 
 class Bishop < SlidingPiece
@@ -203,6 +212,10 @@ class Bishop < SlidingPiece
     ]
   end
 
+  def inspect
+    "#{color.to_s[0]}B "
+  end
+
 end
 
 class Rook < SlidingPiece
@@ -214,6 +227,10 @@ class Rook < SlidingPiece
       [ 0,-1],
       [-1, 0]
     ]
+  end
+
+  def inspect
+    "#{color.to_s[0]}R "
   end
 
 end
@@ -231,6 +248,10 @@ class Queen < SlidingPiece
       [-1,  0],
       [-1, -1]
     ]
+  end
+
+  def inspect
+    "#{color.to_s[0]}Q "
   end
 
 end
