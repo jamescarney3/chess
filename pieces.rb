@@ -91,7 +91,38 @@ class SlidingPiece < Piece
 end
 
 class Pawn < Piece
-  
+  TOP_PAWN_RANK = 6
+
+  def initialize(board, color, pos)
+    super
+    @moved = false
+    @direction = find_direction(pos)
+  end
+
+  def moves
+    valid_moves = []
+  end
+
+
+
+  private
+
+  def march_delta
+    @direction == :up ? [-1, 0] : [1, 0]
+  end
+
+  def attack_deltas
+    if @direction == :up
+      [[-1, -1], [-1, 1]]
+    else
+      [[1, -1], [1, 1]]
+    end
+  end
+
+  def find_direction(pos)
+    pos.first == TOP_PAWN_RANK ? :down : :up
+  end
+
 end
 
 class Knight < SteppingPiece
