@@ -21,9 +21,8 @@ attr_reader :color
     pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
   end
 
-  def occupied_by_ally?(pos)
-    return false if @board[*pos].nil?
-    @board[*pos].color == @color ? true : false
+  def occupied?(pos)
+    !@board[*pos].nil?
   end
 
 end
@@ -38,7 +37,11 @@ class SteppingPiece < Piece
     deltas.map do |delta_rank, delta_file|
       [@pos.first + delta_rank, @pos.last + delta_file]
     end.select do |coord|
-      in_bounds?(coord) && !occupied_by_ally?(coord)
+      in_bounds?(coord) &&
+      (
+        !occupied?(coord) ||
+        @board[*coord].color != self.color
+      )
     end
   end
 
@@ -46,6 +49,19 @@ class SteppingPiece < Piece
 end
 
 class SlidingPiece < Piece
+
+  def moves
+    valid_moves = []
+    move_dirs.each do |dir|
+      
+    end
+
+    valid_moves
+  end
+
+  def move_dirs
+    raise NotImplementedError
+  end
 
 end
 
@@ -87,20 +103,47 @@ class King < SteppingPiece
     ]
   end
 
-  def moves
-
-  end
-
 end
 
 class Bishop < SlidingPiece
+
+  def move_dirs
+    [
+      [ 1, 1],
+      [ 1,-1],
+      [-1, 1],
+      [-1,-1]
+    ]
+  end
 
 end
 
 class Rook < SlidingPiece
 
+  def move_dirs
+    [
+      [ 1, 0],
+      [ 0, 1],
+      [ 0,-1],
+      [-1, 0]
+    ]
+  end
+
 end
 
 class Queen < SlidingPiece
+
+  def move_dirs
+    [
+      [ 1,  1],
+      [ 1,  0],
+      [ 1, -1],
+      [ 0,  1],
+      [ 0, -1],
+      [-1,  1],
+      [-1,  0],
+      [-1, -1]
+    ]
+  end
 
 end
