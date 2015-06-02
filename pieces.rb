@@ -1,4 +1,9 @@
+require_relative 'board.rb'
+require_relative 'chess.rb'
+
 class Piece
+
+attr_reader :color
 
   def initialize(board, color, pos)
     @board = board
@@ -16,8 +21,9 @@ class Piece
     pos.all? {|coord| (0...Board::BOARD_SIZE).include?(coord)}
   end
 
-  def occupied?(pos)
-    !@board[*pos].nil?
+  def occupied_by_ally?(pos)
+    return false if @board[*pos].nil?
+    @board[*pos].color == @color ? true : false
   end
 
 end
@@ -30,9 +36,9 @@ class SteppingPiece < Piece
 
   def moves
     deltas.map do |delta_rank, delta_file|
-      [@pos.first + delta_rank, @pos.last +delta_file]
+      [@pos.first + delta_rank, @pos.last + delta_file]
     end.select do |coord|
-      in_bounds?(coord) && !occupied?(coord)
+      in_bounds?(coord) && !occupied_by_ally?(coord)
     end
   end
 
@@ -97,8 +103,4 @@ end
 
 class Queen < SlidingPiece
 
-end
-
-
-class NotImplementedError < StandardError
 end

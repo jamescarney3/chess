@@ -1,3 +1,6 @@
+require_relative 'pieces.rb'
+require_relative 'chess.rb'
+
 class Board
   BOARD_SIZE = 8
 
