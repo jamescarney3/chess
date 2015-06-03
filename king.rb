@@ -1,16 +1,7 @@
 class King < SteppingPiece
 
   def deltas
-    [
-      [ 1,  1],
-      [ 1,  0],
-      [ 1, -1],
-      [ 0,  1],
-      [ 0, -1],
-      [-1,  1],
-      [-1,  0],
-      [-1, -1]
-    ]
+    SteppingPiece::KING_DELTAS
   end
 
   def inspect

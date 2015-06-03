@@ -1,4 +1,4 @@
-require_relative 'pieces.rb'
+require_relative 'piece.rb'
 require_relative 'chess.rb'
 require 'byebug'
 class Board

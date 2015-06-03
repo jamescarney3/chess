@@ -1,5 +1,27 @@
 class SteppingPiece < Piece
 
+  KNIGHT_DELTAS = [
+    [ 2,  1],
+    [ 2, -1],
+    [ 1,  2],
+    [ 1, -2],
+    [-1,  2],
+    [-1, -2],
+    [-2,  1],
+    [-2, -1]
+  ]
+
+  KING_DELTAS = [
+    [ 1,  1],
+    [ 1,  0],
+    [ 1, -1],
+    [ 0,  1],
+    [ 0, -1],
+    [-1,  1],
+    [-1,  0],
+    [-1, -1]
+  ]
+
   def deltas
     raise NotImplementedError
   end

@@ -1,16 +1,7 @@
 class Knight < SteppingPiece
 
   def deltas
-    [
-      [ 2,  1],
-      [ 2, -1],
-      [ 1,  2],
-      [ 1, -2],
-      [-1,  2],
-      [-1, -2],
-      [-2,  1],
-      [-2, -1]
-    ]
+    SteppingPiece::KNIGHT_DELTAS
   end
 
   def inspect

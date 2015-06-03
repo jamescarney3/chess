@@ -1,16 +1,7 @@
 class Queen < SlidingPiece
 
   def move_dirs
-    [
-      [ 1,  1],
-      [ 1,  0],
-      [ 1, -1],
-      [ 0,  1],
-      [ 0, -1],
-      [-1,  1],
-      [-1,  0],
-      [-1, -1]
-    ]
+    SlidingPiece::ROOK_DELTAS + SlidingPiece::BISHOP_DELTAS
   end
 
   def inspect

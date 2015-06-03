@@ -1,4 +1,20 @@
+require_relative 'piece.rb'
+
 class SlidingPiece < Piece
+
+  ROOK_DELTAS = [
+    [ 1, 0],
+    [ 0, 1],
+    [ 0,-1],
+    [-1, 0]
+  ]
+
+  BISHOP_DELTAS = [
+    [ 1, 1],
+    [ 1,-1],
+    [-1, 1],
+    [-1,-1]
+  ]
 
   def moves
     valid_moves = []
