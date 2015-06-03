@@ -6,8 +6,9 @@ attr_reader :color, :pos
 
   def initialize(board, color, pos)
     @board = board
-    @color = color #:white or :black
-    @pos = pos #[rank, file]
+    @color = color
+    @pos = pos
+    @board[*pos] = self
   end
 
   def moves

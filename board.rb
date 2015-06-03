@@ -50,19 +50,13 @@ class Board
     piece.move_to(end_pos)
   end
 
-  # def move!(start_pos, end_pos)
-  #   piece = self[*start_pos]
-  #
-  #   piece.move_to(end_pos)
-  # end
-
   def dup
     dup_board = Board.new
     BOARD_SIZE.times do |rank_index|
       BOARD_SIZE.times do |file_index|
         dup_pos = [rank_index, file_index]
         next if self[*dup_pos].nil?
-        dup_board[*dup_pos] = self[*dup_pos].dup(dup_board)
+        self[*dup_pos].dup(dup_board)
       end
     end
 
@@ -87,7 +81,7 @@ class Board
 
   def fill_row(rank, color, piece_order)
     BOARD_SIZE.times do |file|
-      self[rank, file] = piece_order[file].new(self, color, [rank,file])
+      piece_order[file].new(self, color, [rank,file])
     end
 
     nil
