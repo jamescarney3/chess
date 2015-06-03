@@ -1,6 +1,9 @@
 require 'byebug'
 class Board
+
   BOARD_SIZE = 8
+  BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+  FRONT_ROW = [Pawn] * BOARD_SIZE
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
@@ -8,18 +11,10 @@ class Board
   end
 
   def set_pieces
-    @board.each_with_index do |rank, rank_index|
-      case rank_index
-      when 0
-        set_powers(rank_index, :black)
-      when 1
-        set_pawns(rank_index, :black)
-      when 6
-        set_pawns(rank_index, :white)
-      when 7
-        set_powers(rank_index, :white)
-      end
-    end
+    fill_row(0, :black, BACK_ROW)
+    fill_row(1, :black, FRONT_ROW)
+    fill_row(6, :white, FRONT_ROW)
+    fill_row(7, :white, BACK_ROW)
 
     self
   end
@@ -86,25 +81,17 @@ class Board
   end
 
   private
-  def set_pawns(rank_index, color)
-    BOARD_SIZE.times do |file_index|
-      pos = [rank_index, file_index]
-      self[*pos] = Pawn.new(self, color, pos)
-    end
-  end
-
-  def set_powers(rank_index, color)
-    piece_classes = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-    BOARD_SIZE.times do |file_index|
-      pos = [rank_index, file_index]
-      self[*pos] = piece_classes[file_index].new(self, color, pos)
-    end
-
-    self
-  end
 
   def pieces
     @board.flatten.compact
+  end
+
+  def fill_row(rank, color, piece_order)
+    BOARD_SIZE.times do |file|
+      self[rank, file] = piece_order[file].new(self, color, [rank,file])
+    end
+
+    nil
   end
 
 end
