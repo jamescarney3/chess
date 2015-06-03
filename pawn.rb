@@ -1,3 +1,4 @@
+require 'byebug'
 class Pawn < Piece
   TOP_PAWN_RANK = 1
   BOTTOM_PAWN_RANK = 6
@@ -45,8 +46,9 @@ class Pawn < Piece
 
   def marchable_coords
     marchable = []
+
     steps = @pos[0] == TOP_PAWN_RANK ||
-      @pos[0] == BOTTOM_PAWN_RANK ? 1 : 2
+      @pos[0] == BOTTOM_PAWN_RANK ? 2 : 1
 
     steps.times do |step|
       test_coord = [
