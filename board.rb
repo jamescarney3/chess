@@ -40,7 +40,7 @@ class Board
     end
 
     opposing_pieces.any? do |piece|
-        piece.moves.include?(king_coords)
+      piece.moves.include?(king_coords)
     end
   end
 
@@ -50,11 +50,11 @@ class Board
     piece.move_to(end_pos)
   end
 
-  def move!(start_pos, end_pos)
-    piece = self[*start_pos]
-
-    piece.move_to(end_pos)
-  end
+  # def move!(start_pos, end_pos)
+  #   piece = self[*start_pos]
+  #
+  #   piece.move_to(end_pos)
+  # end
 
   def dup
     dup_board = Board.new

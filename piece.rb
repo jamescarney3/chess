@@ -26,7 +26,7 @@ attr_reader :color, :pos
 
   def move_into_check?(end_pos)
     dup_board = @board.dup
-    dup_board.move!(@pos, end_pos)
+    dup_board.move(@pos, end_pos)
     dup_board.in_check?(@color)
   end
 
