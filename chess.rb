@@ -12,6 +12,22 @@ class Game
   end
 
   CHESS_NOTATION = self.notation_lookup
+  WHITE_PIECES = {
+    King => "\u2654"
+    Queen => "\u2655"
+    Rook => "\u2656"
+    Bishop => "\u2657"
+    Knight => "\u2658"
+    Pawn => "\u2659"
+  }
+  BLACK_PIECES = {
+    King => "\u265A"
+    Queen => "\u265B"
+    Rook => "\u265C"
+    Bishop => "\u265D"
+    Knight => "\u265E"
+    Pawn => "\u265F"
+  }
 
   def initialize
     @board = Board.create_new_board
@@ -23,14 +39,31 @@ class Game
 
     loop do
       white.play_turn
-      puts @board.inspect
+      draw_board
       break if @board.check_mate?(:black)
       black.play_turn
-      puts @board.inspect
+      draw_board
       break if @board.check_mate?(:white)
     end
 
-    puts "Someone won! We don't know who."
+    if @board.check_mate?(:black)
+      puts "White wins!"
+    elsif
+      @board.check_mate?(:white)
+      puts "Black wins!"
+    else
+      puts "Draw game?" #not actually checking for draws yet.
+    end
+
+  end
+
+  private
+
+  TOP_FRAME = ("a".."h").to_a
+  SIDE_FRAME = ("1".."8").to_a.reverse
+
+  def draw_board
+    
 
   end
 
