@@ -31,13 +31,11 @@ class Board
   end
 
   def in_check?(color)
-    king_coords = pieces.select do |piece|
-      piece.is_a?(King) && piece.color == color
+    king_coords = pieces(color).select do |piece|
+      piece.is_a?(King)
     end.first.pos
 
-    opposing_pieces = pieces.select do |piece|
-      piece.is_a?(Piece) && piece.color != color
-    end
+    opposing_pieces = color == :white ? pieces(:black) : pieces(:white)
 
     opposing_pieces.any? do |piece|
       piece.moves.include?(king_coords)
@@ -66,17 +64,17 @@ class Board
   def check_mate?(color)
     return false if !in_check?(color)
 
-    pieces.select do |piece|
-      piece.color == color
-    end.all? do |piece|
+    pieces(color).all? do |piece|
       piece.valid_moves.empty?
     end
   end
 
   private
 
-  def pieces
-    @board.flatten.compact
+  def pieces(color)
+    @board.flatten.compact.select do |piece|
+      piece.color == color
+    end
   end
 
   def fill_row(rank, color, piece_order)
