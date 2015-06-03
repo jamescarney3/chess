@@ -3,7 +3,6 @@ class HumanPlayer
 
   def initialize(color, board)
     @color = color
-    #@board = board
   end
 
   def play_turn
@@ -18,6 +17,7 @@ class HumanPlayer
     end_pos = Game::CHESS_NOTATION[input[3..4]]
 
     [start_pos, end_pos]
+    
   rescue InvalidSelectionError => error
     puts error.message
     retry

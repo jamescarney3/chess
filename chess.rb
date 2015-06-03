@@ -33,6 +33,7 @@ class Game
 
   def initialize
     @board = Board.create_new_board
+    @turn = :white
   end
 
   def play
@@ -41,18 +42,26 @@ class Game
     draw_board
 
     loop do
-      puts "White's turn"
-      input = white.play_turn
-      @board.move(*input)
-      draw_board
+      begin
+        puts "White's turn"
+        input = white.play_turn
 
-      break if @board.check_mate?(:black)
+        error_check(input)
 
-      puts "Black's turn"
-      input = black.play_turn
-      draw_board
 
-      break if @board.check_mate?(:white)
+        @board.move(*input)
+        draw_board
+        break if @board.check_mate?(:black)
+
+      rescue InvalidMoveError => err
+        puts err.message
+        retry
+      # puts "Black's turn"
+      # input = black.play_turn
+      # draw_board
+      #
+      # break if @board.check_mate?(:white)
+      end
     end
 
     if @board.check_mate?(:black)
@@ -94,6 +103,20 @@ class Game
     end
 
     puts SIDE_FRAME[rank]
+  end
+
+  def error_check(input)
+    piece = @board[*input.first]
+
+    if piece.nil?
+      raise InvalidMoveError.new("No piece to move.")
+    elsif piece.color != @turn
+      raise InvalidMoveError.new("Not your piece to move.")
+    elsif piece.valid_moves.include?(input.last)
+      raise InvalidMoveError.new("Can't move there.")
+    end
+
+    nil
   end
 
 
