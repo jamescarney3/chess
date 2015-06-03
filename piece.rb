@@ -37,10 +37,6 @@ attr_reader :color, :pos
 
   private
 
-  def in_bounds?(pos)
-    pos.all? { |coord| (0...Board::BOARD_SIZE).include?(coord) }
-  end
-
   def occupied?(pos)
     !@board[*pos].nil?
   end

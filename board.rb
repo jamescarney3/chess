@@ -9,6 +9,10 @@ class Board
     Board.new.set_pieces
   end
 
+  def self.in_bounds?(pos)
+    pos.all? { |coord| (0...BOARD_SIZE).include?(coord) }
+  end
+
   def initialize
     @board = Array.new(8) { Array.new(8) }
   end
