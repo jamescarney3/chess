@@ -5,6 +5,10 @@ class Board
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   FRONT_ROW = [Pawn] * BOARD_SIZE
 
+  def self.create_new_board
+    Board.new.set_pieces    
+  end
+
   def initialize
     @board = Array.new(8) { Array.new(8) }
     #self.set_pieces
