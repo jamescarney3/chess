@@ -18,8 +18,7 @@ class SlidingPiece < Piece
     valid_moves = []
 
     move_dirs.each do |dir|
-      distance = 1
-      while distance < Board::BOARD_SIZE
+      1.upto(Board::BOARD_SIZE - 1) do |distance|
         test_coord = [
           distance * dir.first + @pos.first,
           distance * dir.last + @pos.last
@@ -32,7 +31,6 @@ class SlidingPiece < Piece
         valid_moves << test_coord
         break if occupied_by_enemy?(test_coord)
 
-        distance += 1
       end
     end
 

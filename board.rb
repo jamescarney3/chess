@@ -14,7 +14,7 @@ class Board
   end
 
   def initialize
-    @board = Array.new(8) { Array.new(8) }
+    @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
   end
 
   def set_pieces
