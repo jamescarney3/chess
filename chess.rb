@@ -45,15 +45,13 @@ class Game
       begin
         puts "#{@turn.to_s.capitalize}'s turn"
         input = @turn == :white ? white.play_turn : black.play_turn
-
         error_check(input)
-
         @board.move(*input)
         draw_board
 
-        break if @board.check_mate?(@turn)
-
         @turn = @turn == :white ? :black : :white
+
+        break if @board.check_mate?(@turn)
 
       rescue InvalidMoveError => err
         puts err.message
@@ -61,7 +59,7 @@ class Game
       end
     end
 
-    puts @turn == :white ? "White wins!" : "Black wins!"
+    puts @turn == :black ? "White wins!" : "Black wins!"
 
   end
 

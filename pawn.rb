@@ -36,7 +36,8 @@ class Pawn < Piece
         attack_coord.last + @pos.last
       ]
 
-      if in_bounds?(test_coord) && occupied_by_enemy?(test_coord)
+      if Board.in_bounds?(test_coord) &&
+          @board.occupied_by_enemy?(test_coord, @color)
         attackable << test_coord
       end
     end
@@ -55,7 +56,8 @@ class Pawn < Piece
         @pos.first + (march_delta.first * (step + 1)),
         @pos.last
       ]
-      break if occupied?(test_coord) || !in_bounds?(test_coord)
+      break if @board.occupied?(test_coord) ||
+        !Board.in_bounds?(test_coord)
       marchable << test_coord
     end
 

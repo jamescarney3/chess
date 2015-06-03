@@ -35,26 +35,4 @@ attr_reader :color, :pos
     moves.select { |move| !move_into_check?(move) }
   end
 
-  private
-
-  def occupied?(pos)
-    !@board[*pos].nil?
-  end
-
-  def occupied_by_ally?(pos)
-    if occupied?(pos)
-      return @board[*pos].color == self.color
-    end
-
-    false
-  end
-
-  def occupied_by_enemy?(pos)
-    if occupied?(pos)
-      return @board[*pos].color != self.color
-    end
-
-    false
-  end
-
 end

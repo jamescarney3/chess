@@ -30,7 +30,8 @@ class SteppingPiece < Piece
     deltas.map do |delta_rank, delta_file|
       [@pos.first + delta_rank, @pos.last + delta_file]
     end.select do |coord|
-      Board.in_bounds?(coord) && !occupied_by_ally?(coord)
+      Board.in_bounds?(coord) &&
+        !@board.occupied_by_ally?(coord, @color)
     end
   end
 
