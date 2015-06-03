@@ -113,10 +113,8 @@ class Game
       raise InvalidMoveError.new("No piece to move.")
     elsif piece.color != turn
       raise InvalidMoveError.new("Not your piece to move.")
-    elsif !piece.valid_moves.include?(input.last)
-      raise InvalidMoveError.new("Can't move there.")
     end
-
+    
     nil
   end
 

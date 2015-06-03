@@ -37,6 +37,14 @@ class Board
   end
 
   def move(start_pos, end_pos)
+    if !self[start_pos].valid_moves.include?(end_pos)
+      raise InvalidMoveError.new("Can't move there.")
+    end
+
+    move!(start_pos, end_pos)
+  end
+
+  def move!(start_pos, end_pos)
     piece = self[start_pos]
 
     piece.move_to(end_pos)
