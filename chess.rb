@@ -1,6 +1,6 @@
 class Game
 
-  TILE_NAME_PARSER = self.notation_lookup
+  CHESS_NOTATION = self.notation_lookup
 
   def self.notation_lookup
     hash = Hash.new
