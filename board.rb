@@ -69,7 +69,7 @@ class Board
   end
 
   def draw?(color)
-    !in_check?(color) && no_valid_moves(color)
+    !in_check?(color) && no_valid_moves?(color)
   end
 
   def dup

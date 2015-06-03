@@ -85,15 +85,23 @@ class Game
     Board::BOARD_SIZE.times do |file|
       tile = @board[rank, file]
       if tile.nil?
-        print " "
+        print_with_background(" ", rank, file)
       elsif tile.color == :white
-        print WHITE_PIECES[tile.class]
+        print_with_background(WHITE_PIECES[tile.class], rank, file)
       else
-        print BLACK_PIECES[tile.class]
+        print_with_background(BLACK_PIECES[tile.class], rank, file)
       end
     end
 
     puts SIDE_FRAME[rank]
+  end
+
+  def print_with_background(char, rank, file)
+    if (rank + file) % 2 == 0
+      print char.colorize(:background => :light_white)
+    else
+      print char.colorize(:background => :white)
+    end
   end
 
   def error_check(input)
