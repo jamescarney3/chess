@@ -25,7 +25,7 @@ class SlidingPiece < Piece
           distance * dir.last + @pos.last
         ]
 
-        if !in_bounds?(test_coord) || occupied_by_ally?(test_coord)
+        if !Board.in_bounds?(test_coord) || occupied_by_ally?(test_coord)
           break
         end
 
