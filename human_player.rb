@@ -41,14 +41,6 @@ class HumanPlayer
     input
   end
 
-  def pick_piece
-
-  end
-
-  def place_piece
-
-  end
-
   def invalid_input?(input)
     !/\A[A-H][1-8]-[A-H][1-8]\z/.match(input)
   end
