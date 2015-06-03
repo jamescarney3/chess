@@ -6,12 +6,11 @@ class Board
   FRONT_ROW = [Pawn] * BOARD_SIZE
 
   def self.create_new_board
-    Board.new.set_pieces    
+    Board.new.set_pieces
   end
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
-    #self.set_pieces
   end
 
   def set_pieces
