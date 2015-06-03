@@ -33,19 +33,17 @@ class Board
   end
 
   def in_check?(color)
-    flat_board = @board.flatten
-    king_coords = flat_board.select do |tile|
-      tile.is_a?(King) && tile.color == color
+    king_coords = pieces.select do |piece|
+      piece.is_a?(King) && piece.color == color
     end.first.pos
 
-    opposing_pieces = flat_board.select do |tile|
-      tile.is_a?(Piece) && tile.color != color
+    opposing_pieces = pieces.select do |piece|
+      piece.is_a?(Piece) && piece.color != color
     end
 
     opposing_pieces.any? do |piece|
         piece.moves.include?(king_coords)
     end
-
   end
 
   def move(start_pos, end_pos)
@@ -80,8 +78,8 @@ class Board
   def check_mate?(color)
     return false if !in_check?(color)
 
-    @board.flatten.select do |tile|
-      !tile.nil? && tile.color == color
+    pieces.select do |piece|
+      piece.color == color
     end.all? do |piece|
       piece.valid_moves.empty?
     end
@@ -103,6 +101,10 @@ class Board
     end
 
     self
+  end
+
+  def pieces
+    @board.flatten.compact
   end
 
 end
