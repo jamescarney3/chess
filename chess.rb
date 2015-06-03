@@ -12,21 +12,23 @@ class Game
   end
 
   CHESS_NOTATION = self.notation_lookup
+
   WHITE_PIECES = {
-    King => "\u2654",
-    Queen => "\u2655",
-    Rook => "\u2656",
-    Bishop => "\u2657",
-    Knight => "\u2658",
-    Pawn => "\u2659"
+    King => "♔",
+    Queen => "♕",
+    Rook => "♖",
+    Bishop => "♗",
+    Knight => "♘",
+    Pawn => "♙"
   }
+
   BLACK_PIECES = {
-    King => "\u265A",
-    Queen => "\u265B",
-    Rook => "\u265C",
-    Bishop => "\u265D",
-    Knight => "\u265E",
-    Pawn => "\u265F"
+    King => "♚",
+    Queen => "♛",
+    Rook => "♜",
+    Bishop => "♝",
+    Knight => "♞",
+    Pawn => "♟"
   }
 
   def initialize
@@ -36,13 +38,19 @@ class Game
   def play
     white = HumanPlayer.new(:white, @board)
     black = HumanPlayer.new(:black, @board)
+    draw_board
 
     loop do
+      puts "White's turn"
       white.play_turn
       draw_board
+
       break if @board.check_mate?(:black)
+
+      puts "Black's turn"
       black.play_turn
       draw_board
+
       break if @board.check_mate?(:white)
     end
 
@@ -63,8 +71,11 @@ class Game
   SIDE_FRAME = ("1".."8").to_a.reverse
 
   def draw_board
-
-
+    puts " #{TOP_FRAME.join} "
+    Board::BOARD_SIZE.times do |rank|
+      print_line(rank)
+    end
+    puts " #{TOP_FRAME.join} "
   end
 
   def print_line(rank)
@@ -75,9 +86,9 @@ class Game
       if tile.nil?
         print " "
       elsif tile.color == :white
-        print WHITE_PIECES[tile.class].encode('utf-8')
+        print WHITE_PIECES[tile.class]
       else
-        print BLACK_PIECES[tile.class].encode('utf-8')
+        print BLACK_PIECES[tile.class]
       end
     end
 

@@ -16,6 +16,7 @@ class SlidingPiece < Piece
 
   def moves
     valid_moves = []
+
     move_dirs.each do |dir|
       distance = 1
       while distance < Board::BOARD_SIZE
