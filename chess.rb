@@ -51,15 +51,18 @@ class Game
 
         @turn = @turn == :white ? :black : :white
 
-        break if @board.check_mate?(@turn)
+        break if @board.check_mate?(@turn) || @board.draw?(@turn)
 
       rescue InvalidMoveError => err
         puts err.message
         retry
       end
     end
-
-    puts @turn == :black ? "White wins!" : "Black wins!"
+    if @board.draw?(@turn)
+      puts "It's a draw!"
+    else
+      puts @turn == :black ? "White wins!" : "Black wins!"
+    end
 
   end
 

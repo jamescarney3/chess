@@ -39,7 +39,7 @@ class Board
 
     piece.move_to(end_pos)
   end
-############################
+
   def occupied?(pos)
     !self[*pos].nil?
   end
@@ -51,7 +51,7 @@ class Board
   def occupied_by_enemy?(pos, color)
     occupied?(pos) && self[*pos].color != color
   end
-#########################
+
   def in_check?(color)
     king_coords = pieces(color).select do |piece|
       piece.is_a?(King)
@@ -65,11 +65,11 @@ class Board
   end
 
   def check_mate?(color)
-    return false if !in_check?(color)
+    in_check?(color) && no_valid_moves?(color)
+  end
 
-    pieces(color).all? do |piece|
-      piece.valid_moves.empty?
-    end
+  def draw?(color)
+    !in_check?(color) && no_valid_moves(color)
   end
 
   def dup
@@ -99,6 +99,12 @@ class Board
     end
 
     nil
+  end
+
+  def no_valid_moves?(color)
+    pieces(color).all? do |piece|
+      piece.valid_moves.empty?
+    end
   end
 
 end
