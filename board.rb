@@ -1,6 +1,8 @@
 require 'byebug'
 class Board
 
+  attr_reader :board
+
   BOARD_SIZE = 8
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   FRONT_ROW = [Pawn] * BOARD_SIZE
@@ -26,36 +28,36 @@ class Board
     self
   end
 
-  def [](*pos)
+  def [](pos)
     @board[pos.first][pos.last]
   end
 
-  def []=(*pos, value)
+  def []=(pos, value)
     @board[pos.first][pos.last] = value
   end
 
   def move(start_pos, end_pos)
-    piece = self[*start_pos]
+    piece = self[start_pos]
 
     piece.move_to(end_pos)
   end
 
   def occupied?(pos)
-    !self[*pos].nil?
+    !self[pos].nil?
   end
 
   def occupied_by_ally?(pos, color)
-    occupied?(pos) && self[*pos].color == color
+    occupied?(pos) && self[pos].color == color
   end
 
   def occupied_by_enemy?(pos, color)
-    occupied?(pos) && self[*pos].color != color
+    occupied?(pos) && self[pos].color != color
   end
 
   def in_check?(color)
-    king_coords = pieces(color).select do |piece|
+    king_coords = pieces(color).find do |piece|
       piece.is_a?(King)
-    end.first.pos
+    end.pos
 
     opposing_pieces = color == :white ? pieces(:black) : pieces(:white)
 
@@ -77,8 +79,8 @@ class Board
     BOARD_SIZE.times do |rank_index|
       BOARD_SIZE.times do |file_index|
         dup_pos = [rank_index, file_index]
-        next if self[*dup_pos].nil?
-        self[*dup_pos].dup(dup_board)
+        next if self[dup_pos].nil?
+        self[dup_pos].dup(dup_board)
       end
     end
 
@@ -88,7 +90,7 @@ class Board
   private
 
   def pieces(color)
-    @board.flatten.compact.select do |piece|
+    board.flatten.compact.select do |piece|
       piece.color == color
     end
   end

@@ -37,36 +37,38 @@ class Game
   end
 
   def play
-    white = HumanPlayer.new(:white, @board)
-    black = HumanPlayer.new(:black, @board)
+    white = HumanPlayer.new(:white, board)
+    black = HumanPlayer.new(:black, board)
     draw_board
 
     loop do
       begin
-        puts "#{@turn.to_s.capitalize}'s turn"
-        input = @turn == :white ? white.play_turn : black.play_turn
+        puts "#{turn.to_s.capitalize}'s turn"
+        input = turn == :white ? white.play_turn : black.play_turn
         error_check(input)
-        @board.move(*input)
+        board.move(*input)
         draw_board
 
-        @turn = @turn == :white ? :black : :white
+        @turn = turn == :white ? :black : :white
 
-        break if @board.check_mate?(@turn) || @board.draw?(@turn)
+        break if board.check_mate?(turn) || board.draw?(turn)
 
       rescue InvalidMoveError => err
         puts err.message
         retry
       end
     end
-    if @board.draw?(@turn)
+    if board.draw?(turn)
       puts "It's a draw!"
     else
-      puts @turn == :black ? "White wins!" : "Black wins!"
+      puts turn == :black ? "White wins!" : "Black wins!"
     end
 
   end
 
   private
+
+  attr_reader :board, :turn
 
   TOP_FRAME = ("a".."h").to_a
   SIDE_FRAME = ("1".."8").to_a.reverse
@@ -83,7 +85,7 @@ class Game
     print SIDE_FRAME[rank]
 
     Board::BOARD_SIZE.times do |file|
-      tile = @board[rank, file]
+      tile = board[[rank, file]]
       if tile.nil?
         print_with_background(" ", rank, file)
       elsif tile.color == :white
@@ -105,11 +107,11 @@ class Game
   end
 
   def error_check(input)
-    piece = @board[*input.first]
+    piece = board[input.first]
 
     if piece.nil?
       raise InvalidMoveError.new("No piece to move.")
-    elsif piece.color != @turn
+    elsif piece.color != turn
       raise InvalidMoveError.new("Not your piece to move.")
     elsif !piece.valid_moves.include?(input.last)
       raise InvalidMoveError.new("Can't move there.")

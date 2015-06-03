@@ -2,27 +2,27 @@ require 'byebug'
 
 class Piece
 
-attr_reader :color, :pos
+attr_reader :color, :pos, :board
 
   def initialize(board, color, pos)
     @board = board
     @color = color
     @pos = pos
-    @board[*pos] = self
+    @board[pos] = self
   end
 
   def moves
     raise NotImplementedError
   end
 
-  def move_to(pos)
-    @board[*@pos] = nil
-    @pos = pos
-    @board[*pos] = self
+  def move_to(new_pos)
+    @board[pos] = nil
+    @pos = new_pos
+    @board[new_pos] = self
   end
 
   def dup(dup_board)
-    self.class.new(dup_board, @color, @pos.dup)
+    self.class.new(dup_board, color, @pos.dup)
   end
 
   def move_into_check?(end_pos)
