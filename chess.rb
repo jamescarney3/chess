@@ -43,35 +43,25 @@ class Game
 
     loop do
       begin
-        puts "White's turn"
-        input = white.play_turn
+        puts "#{@turn.to_s.capitalize}'s turn"
+        input = @turn == :white ? white.play_turn : black.play_turn
 
         error_check(input)
 
-
         @board.move(*input)
         draw_board
-        break if @board.check_mate?(:black)
+
+        break if @board.check_mate?(@turn)
+
+        @turn = @turn == :white ? :black : :white
 
       rescue InvalidMoveError => err
         puts err.message
         retry
-      # puts "Black's turn"
-      # input = black.play_turn
-      # draw_board
-      #
-      # break if @board.check_mate?(:white)
       end
     end
 
-    if @board.check_mate?(:black)
-      puts "White wins!"
-    elsif
-      @board.check_mate?(:white)
-      puts "Black wins!"
-    else
-      puts "Draw game?" #not actually checking for draws yet.
-    end
+    puts @turn == :white ? "White wins!" : "Black wins!"
 
   end
 
