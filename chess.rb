@@ -42,13 +42,14 @@ class Game
 
     loop do
       puts "White's turn"
-      white.play_turn
+      input = white.play_turn
+      @board.move(*input)
       draw_board
 
       break if @board.check_mate?(:black)
 
       puts "Black's turn"
-      black.play_turn
+      input = black.play_turn
       draw_board
 
       break if @board.check_mate?(:white)

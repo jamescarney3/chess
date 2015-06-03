@@ -46,8 +46,11 @@ class Board
 
   def move(start_pos, end_pos)
     piece = self[*start_pos]
-    raise NoPieceError if piece.nil?
-    raise InvalidMoveError unless piece.valid_moves.include?(end_pos)
+    if piece.nil?
+      raise NoPieceError.new("No piece to move.")
+    elsif !piece.valid_moves.include?(end_pos)
+      raise InvalidMoveError.new("Can't move there.")
+    end
 
     piece.move_to(end_pos)
   end
@@ -101,4 +104,7 @@ end
 
 
 class NoPieceError < StandardError
+end
+
+class InvalidMoveError < StandardError
 end
