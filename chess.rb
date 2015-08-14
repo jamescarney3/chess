@@ -14,21 +14,21 @@ class Game
   CHESS_NOTATION = self.notation_lookup
 
   WHITE_PIECES = {
-    King => "♔",
-    Queen => "♕",
-    Rook => "♖",
-    Bishop => "♗",
-    Knight => "♘",
-    Pawn => "♙"
+    King => "♔ ",
+    Queen => "♕ ",
+    Rook => "♖ ",
+    Bishop => "♗ ",
+    Knight => "♘ ",
+    Pawn => "♙ "
   }
 
   BLACK_PIECES = {
-    King => "♚",
-    Queen => "♛",
-    Rook => "♜",
-    Bishop => "♝",
-    Knight => "♞",
-    Pawn => "♟"
+    King => "♚ ",
+    Queen => "♛ ",
+    Rook => "♜ ",
+    Bishop => "♝ ",
+    Knight => "♞ ",
+    Pawn => "♟ "
   }
 
   def initialize
@@ -70,7 +70,7 @@ class Game
 
   attr_reader :board, :turn
 
-  TOP_FRAME = ("a".."h").to_a
+  TOP_FRAME = ("a".."h").to_a.map{ |el| el + " "}
   SIDE_FRAME = ("1".."8").to_a.reverse
 
   def draw_board
@@ -87,7 +87,7 @@ class Game
     Board::BOARD_SIZE.times do |file|
       tile = board[[rank, file]]
       if tile.nil?
-        print_with_background(" ", rank, file)
+        print_with_background("  ", rank, file)
       elsif tile.color == :white
         print_with_background(WHITE_PIECES[tile.class], rank, file)
       else
@@ -114,7 +114,7 @@ class Game
     elsif piece.color != turn
       raise InvalidMoveError.new("Not your piece to move.")
     end
-    
+
     nil
   end
 
