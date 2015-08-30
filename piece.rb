@@ -19,6 +19,7 @@ attr_reader :color, :pos, :board
     @board[pos] = nil
     @pos = new_pos
     @board[new_pos] = self
+    @board.reset_en_passant(@color)
   end
 
   def dup(dup_board)

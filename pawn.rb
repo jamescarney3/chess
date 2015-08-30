@@ -3,11 +3,26 @@ class Pawn < Piece
   TOP_PAWN_RANK = 1
   BOTTOM_PAWN_RANK = 6
 
-  attr_accessor :direction
+  attr_accessor :direction, :en_passantable
 
   def initialize(board, color, pos)
     super
     @direction = find_direction(pos)
+    @en_passantable = false
+  end
+
+  def move_to(new_pos)
+    unless @board.occupied_by_enemy?(new_pos, @color) || pos[1] == new_pos[1]
+      if @board.en_passant_attackable?(en_passant_coord(new_pos), @color)
+        @board[en_passant_coord(new_pos)] = nil
+      end
+    end
+
+    if (new_pos[0] - @pos[0]).abs == 2
+      @en_passantable = true
+    end
+
+    super(new_pos)
   end
 
   def moves
@@ -37,7 +52,8 @@ class Pawn < Piece
       ]
 
       if Board.in_bounds?(test_coord) &&
-          @board.occupied_by_enemy?(test_coord, @color)
+          (@board.occupied_by_enemy?(test_coord, @color) ||
+          @board.en_passant_attackable?(en_passant_coord(test_coord), @color))
         attackable << test_coord
       end
     end
@@ -74,6 +90,11 @@ class Pawn < Piece
     else
       [[1, -1], [1, 1]]
     end
+  end
+
+  def en_passant_coord(attack_coord)
+    [attack_coord.first + (@direction == :up ? 1 : -1),
+    attack_coord.last]
   end
 
   def find_direction(pos)

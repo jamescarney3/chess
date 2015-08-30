@@ -62,6 +62,19 @@ class Board
     occupied?(pos) && self[pos].color != color
   end
 
+  def en_passant_attackable?(pos, color)
+    occupied?(pos) && self[pos].color != color &&
+    self[pos].class == Pawn && self[pos].en_passantable
+  end
+
+  def reset_en_passant(color)
+    pieces(color == :white ? :black : :white).select do |piece|
+      piece.class == Pawn
+    end.each do |pawn|
+      pawn.en_passantable = false
+    end
+  end
+
   def in_check?(color)
     king_coords = pieces(color).find do |piece|
       piece.is_a?(King)

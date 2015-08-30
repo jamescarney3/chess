@@ -24,12 +24,10 @@ class SlidingPiece < Piece
           distance * dir.last + @pos.last
         ]
 
-        if !Board.in_bounds?(test_coord) ||
-            @board.occupied_by_ally?(test_coord, @color)
-          break
-        end
+        break if !Board.in_bounds?(test_coord) || @board.occupied_by_ally?(test_coord, @color)
 
         valid_moves << test_coord
+
         break if @board.occupied_by_enemy?(test_coord, @color)
 
       end
