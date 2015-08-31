@@ -13,3 +13,6 @@ require_relative 'queen.rb'
 require_relative 'board.rb'
 require_relative 'chess.rb'
 require_relative 'human_player.rb'
+
+g = Game.new
+g.play
