@@ -50,6 +50,36 @@ class Board
     piece.move_to(end_pos)
   end
 
+  def replace_at(pos, color)
+    puts "To what piece will you promote this pawn?"
+    replacement_type = gets.chomp.upcase
+
+    unless valid_replacement_input(replacement_type)
+      raise InvalidInputError.new("Please specify either Q, R, B, or N")
+    end
+
+    self[pos] = nil
+
+    if replacement_type == "R"
+      replacement_piece = Rook.new(self, color, pos, false)
+    elsif replacement_type == "Q"
+      replacement_piece = Queen.new(self, color, pos)
+    elsif replacement_type == "B"
+      replacement_piece = Bishop.new(self, color, pos)
+    elsif replacement_type == "N"
+      replacement_piece = Knight.new(self, color, pos)
+    end
+
+  rescue InvalidInputError => error
+    puts error.message
+    retry
+
+  end
+
+  def valid_replacement_input(replacement_type)
+    %w{Q R B N}.include?(replacement_type)
+  end
+
   def occupied?(pos)
     !self[pos].nil?
   end
@@ -187,4 +217,7 @@ class NoPieceError < StandardError
 end
 
 class InvalidMoveError < StandardError
+end
+
+class InvalidInputError < StandardError
 end

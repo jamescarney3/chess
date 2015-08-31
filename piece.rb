@@ -2,13 +2,14 @@ require 'byebug'
 
 class Piece
 
-attr_reader :color, :pos, :board
+attr_reader :color, :pos, :board, :duped
 
-  def initialize(board, color, pos)
+  def initialize(board, color, pos, duped = false)
     @board = board
     @color = color
     @pos = pos
     @board[pos] = self
+    @duped = duped
   end
 
   def moves
@@ -23,7 +24,7 @@ attr_reader :color, :pos, :board
   end
 
   def dup(dup_board)
-    self.class.new(dup_board, color, @pos.dup)
+    self.class.new(dup_board, color, @pos.dup, true)
   end
 
   def move_into_check?(end_pos)

@@ -2,9 +2,9 @@ class Rook < SlidingPiece
 
   attr_reader :castleable
 
-  def initialize(board, color, pos)
-    super(board, color, pos)
-    @castleable = true
+  def initialize(board, color, pos, duped = false, castleable = true)
+    super(board, color, pos, duped)
+    @castleable = castleable
   end
 
   def move_to(pos)

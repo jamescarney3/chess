@@ -5,8 +5,8 @@ class Pawn < Piece
 
   attr_accessor :direction, :en_passantable
 
-  def initialize(board, color, pos)
-    super
+  def initialize(board, color, pos, duped = false)
+    super(board, color, pos, duped)
     @direction = find_direction(pos)
     @en_passantable = false
   end
@@ -23,6 +23,19 @@ class Pawn < Piece
     end
 
     super(new_pos)
+
+    unless duped
+      if @direction == :up
+        if new_pos[0] == 0
+          @board.replace_at(pos, color)
+        end
+      else
+        if new_pos[0] == Board::BOARD_SIZE - 1
+          @board.replace_at(pos, color)
+        end
+      end
+    end
+
   end
 
   def moves
@@ -34,7 +47,7 @@ class Pawn < Piece
   end
 
   def dup(dup_board)
-    new_pawn = Pawn.new(dup_board, @color, @pos)
+    new_pawn = Pawn.new(dup_board, @color, @pos, true)
     new_pawn.direction = @direction
 
     new_pawn

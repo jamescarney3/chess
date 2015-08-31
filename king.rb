@@ -15,8 +15,8 @@ class King < SteppingPiece
 
   attr_reader :castleable
 
-  def initialize(board, color, pos)
-    super(board, color, pos)
+  def initialize(board, color, pos, duped = false)
+    super(board, color, pos, duped)
     @castleable = true
   end
 
