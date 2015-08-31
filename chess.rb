@@ -46,7 +46,13 @@ class Game
         puts "#{turn.to_s.capitalize}'s turn"
         input = turn == :white ? white.play_turn : black.play_turn
         error_check(input)
-        board.move(*input)
+        if input.class == Array
+          board.move(*input)
+        elsif input == :castle_king_side
+          board.castle_king_side(turn)
+        elsif input == :castle_queen_side
+          board.castle_queen_side(turn)
+        end
         draw_board
 
         @turn = turn == :white ? :black : :white
@@ -107,12 +113,21 @@ class Game
   end
 
   def error_check(input)
-    piece = board[input.first]
-
-    if piece.nil?
-      raise InvalidMoveError.new("No piece to move.")
-    elsif piece.color != turn
-      raise InvalidMoveError.new("Not your piece to move.")
+    if input.class == Array
+      piece = board[input.first]
+      if piece.nil?
+        raise InvalidMoveError.new("No piece to move.")
+      elsif piece.color != turn
+        raise InvalidMoveError.new("Not your piece to move.")
+      end
+    elsif input == :castle_king_side
+      unless board.king_side_castleable?(turn)
+        raise InvalidMoveError.new("#{turn.to_s.capitalize} may not castle king side")
+      end
+    elsif input == :castle_queen_side
+      unless board.queen_side_castleable?(turn)
+        raise InvalidMoveError.new("#{turn.to_s.capitalize} may not castle queen side")
+      end
     end
 
     nil

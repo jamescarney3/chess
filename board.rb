@@ -75,6 +75,48 @@ class Board
     end
   end
 
+  def king_side_castleable?(color)
+    king = pieces(color).find{ |piece| piece.is_a?(King) }
+    king_side_rook = pieces(color).find do |piece|
+      piece.is_a?(Rook) && piece.pos[1] == BOARD_SIZE - 1 && piece.castleable
+    end
+    intervening_squares = King::KING_SIDE_CASTLE_INTERVENING_DELTAS.map do |delta|
+      [king.pos[0], king.pos[1] + delta[1]]
+    end
+
+    king.castleable &&
+    king_side_rook &&
+    intervening_squares.none?{ |square| self.threatened?(square, color) }
+  end
+
+  def queen_side_castleable?(color)
+    king = pieces(color).find{ |piece| piece.is_a?(King) }
+    queen_side_rook = pieces(color).find do |piece|
+      piece.is_a?(Rook) && piece.pos[1] == 0 && piece.castleable
+    end
+    intervening_squares = King::QUEEN_SIDE_CASTLE_INTERVENING_DELTAS.map do |delta|
+      [king.pos[0], king.pos[1] + delta[1]]
+    end
+
+    king.castleable &&
+    queen_side_rook &&
+    intervening_squares.none?{ |square| self.threatened?(square, color) }
+  end
+
+  def castle_king_side(color)
+    king = pieces(color).find{ |piece| piece.is_a?(King) }
+    rook = pieces(color).find{ |piece| piece.is_a?(Rook) && piece.pos == [king.pos[0], BOARD_SIZE - 1] }
+    king.move_to([king.pos[0], king.pos[1] + 2])
+    rook.move_to([king.pos[0], king.pos[1] - 1])
+  end
+
+  def castle_queen_side(color)
+    king = pieces(color).find{ |piece| piece.is_a?(King) }
+    rook = pieces(color).find{ |piece| piece.is_a?(Rook) && piece.pos == [king.pos[0], 0] }
+    king.move_to([king.pos[0], king.pos[1] - 2])
+    rook.move_to([king.pos[0], king.pos[1] + 1])
+  end
+
   def in_check?(color)
     king_coords = pieces(color).find do |piece|
       piece.is_a?(King)
@@ -84,6 +126,14 @@ class Board
 
     opposing_pieces.any? do |piece|
       piece.moves.include?(king_coords)
+    end
+  end
+
+  def threatened?(pos, color)
+    opposing_pieces = color == :white ? pieces(:black) : pieces(:white)
+
+    opposing_pieces.any? do |piece|
+      piece.moves.include?(pos)
     end
   end
 
